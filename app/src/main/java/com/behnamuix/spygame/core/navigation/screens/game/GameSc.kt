@@ -1,0 +1,79 @@
+package com.behnamuix.spygame.core.navigation.screens.game
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.behnamuix.spygame.feature.configgame.presentation.viewmodel.ConfigGameViewModel
+
+import com.behnamuix.spygame.core.navigation.screens.game.components.BottomBarComp
+import com.behnamuix.spygame.core.navigation.screens.game.components.QCardComp
+import com.behnamuix.spygame.core.navigation.screens.game.components.TimerScreenComp
+import com.behnamuix.spygame.core.navigation.screens.game.components.ToolbarComp
+import com.behnamuix.spygame.viewModel.GameViewModel
+import org.koin.androidx.compose.koinViewModel
+
+@Composable
+fun GameSc(
+    word: String,
+    time: Int,
+    navController: NavController,
+    vm: GameViewModel = koinViewModel(),
+    mediaVm: ConfigGameViewModel = koinViewModel()
+) {
+    val secondsLeft by vm.secondsLeft.collectAsState()
+    val isRunning by vm.isRunning.collectAsState()
+    LaunchedEffect(Unit) {
+        //mediaVm.volumeLow()
+        vm.setTime(time)
+        vm.startTimer()
+    }
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        _root_ide_package_.com.behnamuix.spygame.core.navigation.screens.game.components.ToolbarComp(
+            "زمان بحث و گفتگو",
+            word
+        )
+
+        LazyColumn {
+            items(vm.questionList.toList().take(4)) {
+                _root_ide_package_.com.behnamuix.spygame.core.navigation.screens.game.components.QCardComp(
+                    quiz = it.first,
+                    answer = it.second
+                )
+            }
+        }
+        _root_ide_package_.com.behnamuix.spygame.core.navigation.screens.game.components.TimerScreenComp(
+            progress = vm.calcProgress(secondsLeft),
+            formattedTime = vm.showTimerFormatedString(secondsLeft),
+            word = word,
+            navController = navController,
+
+            vm = vm
+        )
+        _root_ide_package_.com.behnamuix.spygame.core.navigation.screens.game.components.BottomBarComp(
+            navController,
+            vm,
+            isRunning,
+            word
+        )
+    }
+}
+
+
+

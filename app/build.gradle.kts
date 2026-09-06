@@ -142,5 +142,11 @@ dependencies {
 
     implementation(libs.zxing.android.embedded)
 
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
+
+
+
+
 
 }

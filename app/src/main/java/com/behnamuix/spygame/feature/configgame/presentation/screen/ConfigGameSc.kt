@@ -1,6 +1,5 @@
 package com.behnamuix.spygame.feature.configgame.presentation.screen
 
-import android.widget.Space
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -72,8 +71,8 @@ import com.behnamuix.spygame.data.local.ds.viewModel.DataStoreViewModel
 import com.behnamuix.spygame.feature.configgame.presentation.contract.ConfigGameContract
 import com.behnamuix.spygame.feature.configgame.presentation.screen.components.IconISwitch
 import com.behnamuix.spygame.feature.configgame.presentation.viewmodel.ConfigGameViewModel
-import com.behnamuix.spygame.ui.theme.AppDimens
-import com.behnamuix.spygame.ui.theme.AppShapes
+import com.behnamuix.spygame.core.theme.AppDimens
+import com.behnamuix.spygame.core.theme.AppShapes
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import org.koin.androidx.compose.koinViewModel

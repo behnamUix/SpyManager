@@ -3,7 +3,7 @@ package com.behnamuix.spygame
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.behnamuix.spygame.ui.navigation.screens.otp.SquareOtpInputComp
+import com.behnamuix.spygame.core.navigation.screens.otp.SquareOtpInputComp
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,7 +19,7 @@ class SquareOtpInputCompTest {
         var resultOtp = ""
 
         composeTestRule.setContent {
-            SquareOtpInputComp(
+            _root_ide_package_.com.behnamuix.spygame.core.navigation.screens.otp.SquareOtpInputComp(
                 otpLength = 4,
                 onOtpComplete = { otp -> resultOtp = otp }
             )
@@ -38,7 +38,9 @@ class SquareOtpInputCompTest {
     @Test
     fun otpInput_SingleDigit_DisplayedCorrectly() {
         composeTestRule.setContent {
-            SquareOtpInputComp(otpLength = 4)
+            _root_ide_package_.com.behnamuix.spygame.core.navigation.screens.otp.SquareOtpInputComp(
+                otpLength = 4
+            )
         }
 
         composeTestRule.onNodeWithTag("otp_0").performTextInput("7")
@@ -50,7 +52,9 @@ class SquareOtpInputCompTest {
     @Test
     fun otpInput_Letter_NotAccepted() {
         composeTestRule.setContent {
-            SquareOtpInputComp(otpLength = 4)
+            _root_ide_package_.com.behnamuix.spygame.core.navigation.screens.otp.SquareOtpInputComp(
+                otpLength = 4
+            )
         }
 
         composeTestRule.onNodeWithTag("otp_0").performTextInput("A")
@@ -62,7 +66,9 @@ class SquareOtpInputCompTest {
     @Test
     fun otpInput_MultipleChars_OnlyFirstAccepted() {
         composeTestRule.setContent {
-            SquareOtpInputComp(otpLength = 4)
+            _root_ide_package_.com.behnamuix.spygame.core.navigation.screens.otp.SquareOtpInputComp(
+                otpLength = 4
+            )
         }
 
         composeTestRule.onNodeWithTag("otp_0").performTextInput("56")
@@ -74,7 +80,9 @@ class SquareOtpInputCompTest {
     @Test
     fun otpInput_TwoFieldsFilled_ThirdEmpty() {
         composeTestRule.setContent {
-            SquareOtpInputComp(otpLength = 4)
+            _root_ide_package_.com.behnamuix.spygame.core.navigation.screens.otp.SquareOtpInputComp(
+                otpLength = 4
+            )
         }
 
         composeTestRule.onNodeWithTag("otp_0").performTextInput("1")
@@ -91,7 +99,7 @@ class SquareOtpInputCompTest {
         var callbackCalled = false
 
         composeTestRule.setContent {
-            SquareOtpInputComp(
+            _root_ide_package_.com.behnamuix.spygame.core.navigation.screens.otp.SquareOtpInputComp(
                 otpLength = 4,
                 onOtpComplete = { callbackCalled = true }
             )
@@ -108,7 +116,9 @@ class SquareOtpInputCompTest {
     @Test
     fun otpInput_SpecialChar_NotAccepted() {
         composeTestRule.setContent {
-            SquareOtpInputComp(otpLength = 4)
+            _root_ide_package_.com.behnamuix.spygame.core.navigation.screens.otp.SquareOtpInputComp(
+                otpLength = 4
+            )
         }
 
         composeTestRule.onNodeWithTag("otp_0").performTextInput("@")
@@ -120,7 +130,9 @@ class SquareOtpInputCompTest {
     @Test
     fun otpInput_EmptyField_ShowsEmptyText() {
         composeTestRule.setContent {
-            SquareOtpInputComp(otpLength = 4)
+            _root_ide_package_.com.behnamuix.spygame.core.navigation.screens.otp.SquareOtpInputComp(
+                otpLength = 4
+            )
         }
 
         composeTestRule.onNodeWithTag("otp_0").assert(hasText(""))
