@@ -122,7 +122,7 @@ fun ConfigGameContent(vm: ConfigGameViewModel) {
 
             Spacer(
                 modifier = Modifier.height(
-                    AppDimens.contentTopSpace
+                    50.dp
                 )
             )
 
@@ -196,7 +196,7 @@ fun ConfigGameContent(vm: ConfigGameViewModel) {
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .fillMaxWidth()
-                        .fillMaxHeight(0.4f),
+                        .fillMaxHeight(0.3f),
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
                 ) {

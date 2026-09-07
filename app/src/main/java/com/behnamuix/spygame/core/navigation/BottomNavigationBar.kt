@@ -43,10 +43,7 @@ fun BottomNavigationBar(
         modifier = Modifier
             .fillMaxWidth()
             .navigationBarsPadding()
-            .padding(
-                horizontal = 16.dp,
-                vertical = 10.dp
-            )
+
     ) {
 
         Row(
@@ -54,15 +51,12 @@ fun BottomNavigationBar(
                 .fillMaxWidth()
                 .height(76.dp)
                 .clip(
-                    RoundedCornerShape(24.dp)
+                    RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp, bottomStart = 0.dp, bottomEnd = 0.dp)
                 )
                 .background(
                     Color(0xFF17191F)
                 )
-                .padding(
-                    horizontal = 8.dp,
-                    vertical = 6.dp
-                ),
+               ,
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {

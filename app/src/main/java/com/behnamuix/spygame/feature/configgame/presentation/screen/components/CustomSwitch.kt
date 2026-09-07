@@ -92,9 +92,9 @@ fun IconISwitch(
 
     val animatedThumbOffset by animateDpAsState(
         targetValue = thumbOffset,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioNoBouncy,
-            stiffness = Spring.StiffnessMedium
+        animationSpec = tween(
+            durationMillis = 250,
+            easing = FastOutSlowInEasing
         ),
         label = "thumb_offset"
     )
