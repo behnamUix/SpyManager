@@ -11,7 +11,7 @@
 📱 Screenshots
 
 <p align="center">
-  <img src="home.png" width="220" alt="Spy Manager Home Screen" />
+  <img src="Screenshot_20260909_042221.jpg" width="220" alt="Spy Manager Home Screen" />
   &nbsp;&nbsp;&nbsp;&nbsp;
   <img src="login.png" width="220" alt="Spy Manager Login Screen" />
 </p><p align="center">
