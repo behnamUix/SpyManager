@@ -3,7 +3,7 @@ package com.behnamuix.spygame.core.di
 import android.content.Context
 import androidx.room.Room
 import com.behnamuix.spygame.core.database.SpyDatabase
-import com.behnamuix.spygame.data.local.db.repository.keyword.KeywordRepository
+import com.behnamuix.spygame.feature.configword.domain.repository.KeywordRepository
 import com.behnamuix.spygame.data.local.db.repository.keyword.KeywordRepositoryImpl
 import com.behnamuix.spygame.data.local.ds.config.dataStore
 import com.behnamuix.spygame.data.local.ds.repository.DataStoreRepository

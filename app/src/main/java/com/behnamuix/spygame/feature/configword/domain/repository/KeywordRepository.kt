@@ -1,6 +1,7 @@
-package com.behnamuix.spygame.data.local.db.repository.keyword
+package com.behnamuix.spygame.feature.configword.domain.repository
 
-import com.behnamuix.spygame.data.local.db.model.KeyWord
+import com.behnamuix.spygame.feature.configword.domain.model.KeyWord
+
 
 interface KeywordRepository {
     suspend fun getKeywords(): List<KeyWord>

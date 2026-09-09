@@ -4,6 +4,7 @@ import com.behnamuix.spygame.data.local.db.dao.KeywordDao
 import com.behnamuix.spygame.data.local.db.model.KeyWord
 import com.behnamuix.spygame.data.local.db.model.toKeyword
 import com.behnamuix.spygame.data.local.db.model.toKeywordEntity
+import com.behnamuix.spygame.feature.configword.domain.repository.KeywordRepository
 
 class KeywordRepositoryImpl(private val dao: KeywordDao) : KeywordRepository {
     override suspend fun getKeywords(): List<KeyWord> {

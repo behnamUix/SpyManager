@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.behnamuix.spygame.data.local.db.repository.keyword.KeywordRepository
+import com.behnamuix.spygame.feature.configword.domain.repository.KeywordRepository
 import com.behnamuix.spygame.utils.setLog
 import com.behnamuix.spygame.utils.shuffledList
 import kotlinx.coroutines.flow.MutableStateFlow

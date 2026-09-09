@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.behnamuix.spygame.core.media.controller.MusicController
 import com.behnamuix.spygame.data.local.db.model.KeyWord
-import com.behnamuix.spygame.data.local.db.repository.keyword.KeywordRepository
+import com.behnamuix.spygame.feature.configword.domain.repository.KeywordRepository
 import com.behnamuix.spygame.data.local.ds.viewModel.DataStoreViewModel
 import com.behnamuix.spygame.feature.configgame.domain.usecase.ConfigGameUseCase
 import com.behnamuix.spygame.feature.configgame.presentation.contract.ConfigGameContract
