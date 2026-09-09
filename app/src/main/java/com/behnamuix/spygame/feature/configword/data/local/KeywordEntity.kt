@@ -1,4 +1,4 @@
-package com.behnamuix.spygame.data.local.db.model
+package com.behnamuix.spygame.feature.configword.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -6,11 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "words")
 data class KeywordEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int=0,
-    val word: String,
-)
-
-data class KeyWord(
     val id: Int=0,
     val word: String,
 )

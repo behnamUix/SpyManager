@@ -1,11 +1,9 @@
-package com.behnamuix.spygame.data.local.db.dao
+package com.behnamuix.spygame.feature.configword.data.local
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.behnamuix.spygame.data.local.db.model.KeywordEntity
-
 
 @Dao
 interface KeywordDao {

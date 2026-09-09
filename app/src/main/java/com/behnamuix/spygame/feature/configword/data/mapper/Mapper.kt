@@ -1,4 +1,8 @@
-package com.behnamuix.spygame.data.local.db.model
+package com.behnamuix.spygame.feature.configword.data.mapper
+
+import com.behnamuix.spygame.feature.configword.data.local.KeywordEntity
+import com.behnamuix.spygame.feature.configword.domain.model.KeyWord
+
 
 fun KeywordEntity.toKeyword(): KeyWord {
     return KeyWord(

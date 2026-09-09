@@ -3,7 +3,7 @@ package com.behnamuix.spygame.core.di
 import android.content.Context
 import androidx.room.Room
 import com.behnamuix.spygame.core.database.SpyDatabase
-import com.behnamuix.spygame.data.local.db.dao.KeywordDao
+import com.behnamuix.spygame.feature.configword.data.local.KeywordDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
