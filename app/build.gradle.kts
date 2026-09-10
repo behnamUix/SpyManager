@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.hilt.android)
     id("org.jetbrains.kotlin.plugin.compose")
 
 
@@ -144,6 +145,9 @@ dependencies {
 
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
 
 
 
