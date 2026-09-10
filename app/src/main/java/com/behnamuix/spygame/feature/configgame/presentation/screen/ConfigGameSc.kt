@@ -61,28 +61,26 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil3.Bitmap
 import coil3.compose.AsyncImage
 import com.behnamuix.appointment.const.BACKGROUND_URL
 import com.behnamuix.spygame.R
-import com.behnamuix.spygame.data.local.ds.viewModel.DataStoreViewModel
+import com.behnamuix.spygame.core.theme.AppDimens
+import com.behnamuix.spygame.core.theme.AppShapes
 import com.behnamuix.spygame.feature.configgame.presentation.contract.ConfigGameContract
 import com.behnamuix.spygame.feature.configgame.presentation.screen.components.IconISwitch
 import com.behnamuix.spygame.feature.configgame.presentation.viewmodel.ConfigGameViewModel
-import com.behnamuix.spygame.core.theme.AppDimens
-import com.behnamuix.spygame.core.theme.AppShapes
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
-import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun ConfigGameSc(
     navController: NavController,
-    vm: ConfigGameViewModel = koinViewModel(),
-    dsVm: DataStoreViewModel = koinViewModel(),
+    vm: ConfigGameViewModel = hiltViewModel(),
 ) {
 
 

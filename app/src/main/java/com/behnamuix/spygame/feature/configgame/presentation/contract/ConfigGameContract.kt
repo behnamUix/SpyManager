@@ -1,6 +1,7 @@
 package com.behnamuix.spygame.feature.configgame.presentation.contract
 
-import com.behnamuix.spygame.data.local.db.model.KeyWord
+import com.behnamuix.spygame.feature.configword.domain.model.KeyWord
+
 
 object ConfigGameContract {
     data class ConfigGameState(
@@ -38,9 +39,11 @@ object ConfigGameContract {
             val spyCount: Int
         ) : ConfigGameAction()
 
+/*
         data object PlayMusic : ConfigGameAction()
         data object PauseMusic : ConfigGameAction()
         data object SetMusicVolume : ConfigGameAction()
+*/
 
         data object ShowAddWordDialog : ConfigGameAction()
         data object HideAddWordDialog : ConfigGameAction()

@@ -1,50 +1,28 @@
 package com.behnamuix.spygame.feature.configgame.presentation.screen.components
 
-import android.widget.Toast
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.behnamuix.spygame.data.local.ds.viewModel.DataStoreViewModel
-import com.behnamuix.spygame.utils.setLog
 import com.behnamuix.spygame.feature.configgame.presentation.viewmodel.ConfigGameViewModel
-import kotlinx.coroutines.flow.first
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun Header(
     navController: NavController,
-    dsVm: DataStoreViewModel = koinViewModel(),
-    vm: ConfigGameViewModel = koinViewModel(),
+    vm: ConfigGameViewModel = hiltViewModel(),
 ) {
     var login by remember { mutableStateOf(false) }
     val ctx = LocalContext.current
@@ -60,9 +38,9 @@ fun Header(
 
 
     LaunchedEffect(Unit) {
-        login = if (dsVm.loggedInState.first()) true else false
+/*        login = if (dsVm.loggedInState.first()) true else false
         vm.userUseOperation(dsVm, setCheck = { check = it })
-        loggedIn = dsVm.loggedInState.first()
+        loggedIn = dsVm.loggedInState.first()*/
 
     }
     Row(
