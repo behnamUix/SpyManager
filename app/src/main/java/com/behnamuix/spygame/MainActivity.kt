@@ -14,7 +14,9 @@ import androidx.navigation.compose.rememberNavController
 import com.behnamuix.spygame.core.navigation.AppNavigation
 import com.behnamuix.spygame.core.navigation.BottomNavigationBar
 import com.behnamuix.spygame.core.theme.SpyTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

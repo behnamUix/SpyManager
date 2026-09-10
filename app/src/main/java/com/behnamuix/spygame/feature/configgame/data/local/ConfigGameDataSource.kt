@@ -5,10 +5,11 @@ import com.behnamuix.spygame.feature.configgame.domain.model.Agent
 import com.behnamuix.spygame.feature.configgame.domain.model.Biometric
 import com.behnamuix.spygame.feature.configgame.domain.model.Spy
 import com.behnamuix.spygame.utils.generateMd5Code
+import javax.inject.Inject
 import kotlin.random.Random
 
 
-class ConfigGameDataSource {
+class ConfigGameDataSource @Inject constructor() {
 
     fun incAgentCountPlayer() {
         Agent.count++

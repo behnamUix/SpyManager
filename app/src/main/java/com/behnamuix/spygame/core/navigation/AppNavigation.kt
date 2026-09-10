@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.behnamuix.spygame.feature.configgame.presentation.screen.ConfigGameSc
+import com.behnamuix.spygame.feature.configword.presentation.screen.WordManagerSc
 
 @Composable
 fun AppNavigation(navController: NavHostController, modifier: Modifier) {
@@ -25,6 +26,7 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier) {
             }
 
             composable<WordsRoute> {
+                WordManagerSc()
 
             }
 

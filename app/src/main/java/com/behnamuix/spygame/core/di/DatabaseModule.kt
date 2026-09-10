@@ -14,6 +14,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
+    //az provide estefade kardam va be hilt migam khodam raveshe piyade sazish ro minevisam
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): SpyDatabase =

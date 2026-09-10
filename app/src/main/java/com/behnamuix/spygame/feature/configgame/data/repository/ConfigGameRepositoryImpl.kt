@@ -5,16 +5,12 @@ import com.behnamuix.spygame.feature.configgame.domain.model.Agent
 import com.behnamuix.spygame.feature.configgame.domain.model.Biometric
 import com.behnamuix.spygame.feature.configgame.domain.model.Spy
 import com.behnamuix.spygame.feature.configgame.domain.repository.ConfigGameRepository
+import javax.inject.Inject
 
 
-class ConfigGameRepositoryImpl :
+class ConfigGameRepositoryImpl @Inject constructor(private val configGameDataSource: ConfigGameDataSource) :
     ConfigGameRepository {
 
-    private val configGameDataSource: ConfigGameDataSource
-
-    constructor(configGameDataSource: ConfigGameDataSource) {
-        this.configGameDataSource = configGameDataSource
-    }
 
     override fun incAgentCountPlayer(): Int {
         configGameDataSource.incAgentCountPlayer()

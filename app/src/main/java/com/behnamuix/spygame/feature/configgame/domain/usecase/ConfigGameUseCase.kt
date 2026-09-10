@@ -2,9 +2,10 @@ package com.behnamuix.spygame.feature.configgame.domain.usecase
 
 
 import com.behnamuix.spygame.feature.configgame.domain.repository.ConfigGameRepository
+import javax.inject.Inject
 
 
-class ConfigGameUseCase(
+class ConfigGameUseCase @Inject constructor(
     private val configGameRepository: ConfigGameRepository
 ) {
 

@@ -3,22 +3,23 @@ package com.behnamuix.spygame.feature.configgame.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.behnamuix.spygame.core.media.controller.MusicController
-import com.behnamuix.spygame.data.local.db.model.KeyWord
-import com.behnamuix.spygame.feature.configword.domain.repository.KeywordRepository
-import com.behnamuix.spygame.data.local.ds.viewModel.DataStoreViewModel
 import com.behnamuix.spygame.feature.configgame.domain.usecase.ConfigGameUseCase
 import com.behnamuix.spygame.feature.configgame.presentation.contract.ConfigGameContract
+import com.behnamuix.spygame.feature.configword.domain.model.KeyWord
+import com.behnamuix.spygame.feature.configword.domain.repository.KeywordRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
-class ConfigGameViewModel(
+@HiltViewModel
+class ConfigGameViewModel @Inject constructor(
     private val keywordRepo: KeywordRepository,
-    private val controller: MusicController,
     private val useCase: ConfigGameUseCase
 ) : ViewModel() {
     val listTrack = listOf(
@@ -68,14 +69,14 @@ class ConfigGameViewModel(
             is ConfigGameContract.ConfigGameAction.Initialize ->
                 init(action.agentCount, action.spyCount)
 
-            ConfigGameContract.ConfigGameAction.PlayMusic ->
+          /*  ConfigGameContract.ConfigGameAction.PlayMusic ->
                 play()
 
             ConfigGameContract.ConfigGameAction.PauseMusic ->
                 pause()
 
             ConfigGameContract.ConfigGameAction.SetMusicVolume ->
-                setVolume()
+                setVolume()*/
 
             ConfigGameContract.ConfigGameAction.ShowAddWordDialog ->
                 updateState { copy(showAddWordDialog = true) }
@@ -227,22 +228,9 @@ class ConfigGameViewModel(
         updateState { copy(wordExist = exists) }
     }
 
-    fun userUseOperation(
-        dsVm: DataStoreViewModel,
-        setCheck: (Boolean) -> Unit
-    ) {
-        viewModelScope.launch {
-            dsVm.userUse.collect { isUsed ->
-                setCheck(isUsed)
 
-                if (isUsed) {
-                    reverseExpand()
-                }
-            }
-        }
-    }
 
-    fun play() {
+   /* fun play() {
         controller.play(listTrack.random())
     }
 
@@ -252,5 +240,5 @@ class ConfigGameViewModel(
 
     fun setVolume() {
         controller.setVolume(1f)
-    }
+    }*/
 }

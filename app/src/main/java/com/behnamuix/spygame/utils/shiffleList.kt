@@ -1,6 +1,6 @@
 package com.behnamuix.spygame.utils
 
-import SpyGameSimulator.model.Player
+
 
 fun shuffledList(useSecureRandom: Boolean, list: MutableList<Player>): MutableList<Player> {
     return if (useSecureRandom) {
@@ -10,3 +10,6 @@ fun shuffledList(useSecureRandom: Boolean, list: MutableList<Player>): MutableLi
     }.toMutableList()
 
 }
+
+
+data class Player(var id: Int, var role: String)

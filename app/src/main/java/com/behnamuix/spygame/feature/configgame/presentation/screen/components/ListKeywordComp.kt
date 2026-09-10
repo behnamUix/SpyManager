@@ -32,7 +32,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.behnamuix.spygame.feature.configgame.presentation.viewmodel.ConfigGameViewModel
-import com.behnamuix.spygame.data.local.db.model.KeyWord
+import com.behnamuix.spygame.feature.configword.domain.model.KeyWord
+
 import com.behnamuix.spygame.utils.setLog
 
 @Composable

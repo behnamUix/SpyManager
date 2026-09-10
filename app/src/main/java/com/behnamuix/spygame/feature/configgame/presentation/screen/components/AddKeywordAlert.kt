@@ -35,8 +35,9 @@ import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.behnamuix.spygame.data.local.db.model.KeyWord
+
 import com.behnamuix.spygame.feature.configgame.presentation.viewmodel.ConfigGameViewModel
+import com.behnamuix.spygame.feature.configword.domain.model.KeyWord
 import kotlinx.coroutines.launch
 
 @Composable
