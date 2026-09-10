@@ -17,7 +17,7 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier) {
 
         NavHost(
             navController = navController,
-            startDestination = GameRoute,
+            startDestination = WordsRoute,
 
         ) {
 
