@@ -26,7 +26,12 @@ class KeywordViewmodel @Inject constructor(
             is UiAction.GetKeyword -> getKeyword()
             is UiAction.AddKeyword -> addKeyword(action.word)
             is UiAction.DeleteKeyWord -> deleteKeyword(action.word)
+            is UiAction.SetText -> setText(action.word)
         }
+    }
+
+    private fun setText(word: String) {
+        _uiState.update { it.copy(word = word) }
     }
 
     private fun deleteKeyword(word: KeyWord) {
@@ -41,9 +46,7 @@ class KeywordViewmodel @Inject constructor(
     private fun addKeyword(word: KeyWord) {
         viewModelScope.launch {
             keyWordUseCase.addKeywords(word)
-            _uiState.update { state ->
-                state.copy(keyWords = state.keyWords)
-            }
+
         }
     }
 
