@@ -1,20 +1,57 @@
 package com.behnamuix.spygame.feature.configword.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.behnamuix.spygame.feature.configword.domain.model.KeyWord
 import com.behnamuix.spygame.feature.configword.domain.usecase.KeyWordUseCase
+import com.behnamuix.spygame.feature.configword.presentation.contract.UiAction
+import com.behnamuix.spygame.feature.configword.presentation.contract.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
 class KeywordViewmodel @Inject constructor(
     private val keyWordUseCase: KeyWordUseCase
 ) : ViewModel() {
-    init {
-        runBlocking {
+    private val _uiState = MutableStateFlow(UiState())
+    var uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-            keyWordUseCase.getKeywords()
+    fun onAction(action: UiAction) {
+        when (action) {
+            is UiAction.GetKeyword -> getKeyword()
+            is UiAction.AddKeyword -> addKeyword(action.word)
+            is UiAction.DeleteKeyWord -> deleteKeyword(action.word)
         }
     }
+
+    private fun deleteKeyword(word: KeyWord) {
+        viewModelScope.launch {
+            keyWordUseCase.deleteKeywords(word)
+            _uiState.update { state ->
+                state.copy(keyWords = state.keyWords)
+            }
+        }
+    }
+
+    private fun addKeyword(word: KeyWord) {
+        viewModelScope.launch {
+            keyWordUseCase.addKeywords(word)
+            _uiState.update { state ->
+                state.copy(keyWords = state.keyWords)
+            }
+        }
+    }
+
+    private fun getKeyword() {
+        viewModelScope.launch {
+            keyWordUseCase.getKeywords()
+
+        }
+    }
+
 }
