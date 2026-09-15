@@ -10,4 +10,6 @@ class KeyWordUseCase @Inject constructor(
     suspend fun getKeywords() = keyWordRepo.getKeywords()
     suspend fun addKeywords(word: KeyWord) = keyWordRepo.addKeywords(word)
     suspend fun deleteKeywords(word: KeyWord) = keyWordRepo.deleteKeywords(word)
+
+    suspend fun deletedAll() = keyWordRepo.deleteAll()
 }

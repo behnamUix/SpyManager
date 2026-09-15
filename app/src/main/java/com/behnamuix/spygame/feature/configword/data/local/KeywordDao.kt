@@ -16,4 +16,7 @@ interface KeywordDao {
 
     @Delete
     suspend fun delete(word: KeywordEntity)
+
+    @Query("DELETE  FROM words")
+    suspend fun deleteAll()
 }

@@ -23,4 +23,8 @@ class KeywordRepositoryImpl @Inject constructor(
     override suspend fun deleteKeywords(word: KeyWord) {
         keywordDao.delete(word.toKeywordEntity())
     }
+
+    override suspend fun deleteAll() {
+        keywordDao.deleteAll()
+    }
 }

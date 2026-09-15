@@ -27,7 +27,16 @@ class KeywordViewmodel @Inject constructor(
             is UiAction.AddKeyword -> addKeyword(action.word)
             is UiAction.DeleteKeyWord -> deleteKeyword(action.word)
             is UiAction.SetText -> setText(action.word)
+            is UiAction.DeleteAll -> deleteAll()
         }
+    }
+
+    private fun deleteAll() {
+        viewModelScope.launch {
+            keyWordUseCase.deletedAll()
+            getKeyword()
+        }
+
     }
 
     private fun setText(word: String) {
@@ -37,22 +46,24 @@ class KeywordViewmodel @Inject constructor(
     private fun deleteKeyword(word: KeyWord) {
         viewModelScope.launch {
             keyWordUseCase.deleteKeywords(word)
-            _uiState.update { state ->
-                state.copy(keyWords = state.keyWords)
-            }
+
+
+            getKeyword()
         }
     }
 
     private fun addKeyword(word: KeyWord) {
         viewModelScope.launch {
             keyWordUseCase.addKeywords(word)
+            getKeyword()
 
         }
     }
 
     private fun getKeyword() {
         viewModelScope.launch {
-            keyWordUseCase.getKeywords()
+
+            _uiState.update { it.copy(keyWords = keyWordUseCase.getKeywords()) }
 
         }
     }
