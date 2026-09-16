@@ -35,6 +35,7 @@ class ConfigGameViewModel @Inject constructor(
 
     fun onAction(action: ConfigGameContract.ConfigGameAction) {
         when (action) {
+            is ConfigGameContract.ConfigGameAction.setSetAiSwitch -> setAiSwitch(action.value)
             is ConfigGameContract.ConfigGameAction.setBiometricProgress -> getBiometricProg()
             is ConfigGameContract.ConfigGameAction.SetEnabled ->
                 setEnabled(action.enabled)
@@ -69,14 +70,14 @@ class ConfigGameViewModel @Inject constructor(
             is ConfigGameContract.ConfigGameAction.Initialize ->
                 init(action.agentCount, action.spyCount)
 
-          /*  ConfigGameContract.ConfigGameAction.PlayMusic ->
-                play()
+            /*  ConfigGameContract.ConfigGameAction.PlayMusic ->
+                  play()
 
-            ConfigGameContract.ConfigGameAction.PauseMusic ->
-                pause()
+              ConfigGameContract.ConfigGameAction.PauseMusic ->
+                  pause()
 
-            ConfigGameContract.ConfigGameAction.SetMusicVolume ->
-                setVolume()*/
+              ConfigGameContract.ConfigGameAction.SetMusicVolume ->
+                  setVolume()*/
 
             ConfigGameContract.ConfigGameAction.ShowAddWordDialog ->
                 updateState { copy(showAddWordDialog = true) }
@@ -87,6 +88,10 @@ class ConfigGameViewModel @Inject constructor(
             is ConfigGameContract.ConfigGameAction.SetProgress ->
                 updateState { copy(progress = action.value) }
         }
+    }
+
+    private fun setAiSwitch(value: Boolean) {
+        _configGameState.update { it.copy(useAi = value) }
     }
 
     private fun updateState(
@@ -229,16 +234,15 @@ class ConfigGameViewModel @Inject constructor(
     }
 
 
+    /* fun play() {
+         controller.play(listTrack.random())
+     }
 
-   /* fun play() {
-        controller.play(listTrack.random())
-    }
+     fun pause() {
+         controller.pause()
+     }
 
-    fun pause() {
-        controller.pause()
-    }
-
-    fun setVolume() {
-        controller.setVolume(1f)
-    }*/
+     fun setVolume() {
+         controller.setVolume(1f)
+     }*/
 }

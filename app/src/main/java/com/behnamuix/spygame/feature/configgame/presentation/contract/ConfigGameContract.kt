@@ -1,6 +1,7 @@
 package com.behnamuix.spygame.feature.configgame.presentation.contract
 
 import com.behnamuix.spygame.feature.configword.domain.model.KeyWord
+import com.behnamuix.spygame.feature.configword.presentation.contract.UiAction
 
 
 object ConfigGameContract {
@@ -15,10 +16,12 @@ object ConfigGameContract {
         val wordExist: Boolean = false,
         val showAddWordDialog: Boolean = false,
         val progress: Boolean = true,
-        val biometricSyncProg:Float=0f
+        val biometricSyncProg:Float=0f,
+        val useAi: Boolean=false
     )
 
     sealed class ConfigGameAction {
+        data class setSetAiSwitch(val value: Boolean): ConfigGameAction()
 
         data class SetEnabled(val enabled: Boolean) : ConfigGameAction()
 

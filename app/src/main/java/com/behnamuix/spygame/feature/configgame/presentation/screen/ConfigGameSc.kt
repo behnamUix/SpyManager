@@ -46,6 +46,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Color
@@ -64,6 +65,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil3.Bitmap
 import coil3.compose.AsyncImage
 import com.behnamuix.appointment.const.BACKGROUND_URL
@@ -79,16 +81,17 @@ import com.journeyapps.barcodescanner.BarcodeEncoder
 
 @Composable
 fun ConfigGameSc(
-    navController: NavController,
     vm: ConfigGameViewModel = hiltViewModel(),
+    OpenConfigRoleClicked: () -> Unit,
 ) {
 
 
-    ConfigGameContent(vm)
+    ConfigGameContent(vm, OpenConfigRoleClicked)
 }
 
 @Composable
-fun ConfigGameContent(vm: ConfigGameViewModel) {
+fun ConfigGameContent(vm: ConfigGameViewModel, OpenConfigRoleClicked: () -> Unit) {
+
 
     Box(
         modifier = Modifier
@@ -164,6 +167,7 @@ fun ConfigGameContent(vm: ConfigGameViewModel) {
             )
 
             CountCard(
+
                 configGameState,
                 title = "SPY COUNT",
                 count = configGameState.value.spyCount,
@@ -187,10 +191,14 @@ fun ConfigGameContent(vm: ConfigGameViewModel) {
                 )
             )
             AiCard(configGameState)
-            Box(                   modifier = Modifier
-                .padding(top = 24.dp)){
+            Box(
+                modifier = Modifier
+                    .padding(top = 24.dp)
+            ) {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        OpenConfigRoleClicked()
+                    },
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .fillMaxWidth()
@@ -423,7 +431,11 @@ fun BarcodeGeneratorComp(
 }
 
 @Composable
-fun AiCard(configGameState: State<ConfigGameContract.ConfigGameState>) {
+fun AiCard(
+
+    configGameState: State<ConfigGameContract.ConfigGameState>,
+    vm: ConfigGameViewModel = hiltViewModel(),
+) {
     var check by remember { mutableStateOf(false) }
     val animatedProgress by animateFloatAsState(
         targetValue = configGameState.value.biometricSyncProg,
@@ -535,6 +547,7 @@ fun AiCard(configGameState: State<ConfigGameContract.ConfigGameState>) {
                 )
             )
             OutlinedTextField(
+                enabled = configGameState.value.useAi,
                 value = "",
                 onValueChange = {},
                 placeholder = {
@@ -547,6 +560,13 @@ fun AiCard(configGameState: State<ConfigGameContract.ConfigGameState>) {
                 trailingIcon = {
                     Box(
                         modifier = Modifier
+                            .alpha(
+                                if (configGameState.value.useAi) {
+                                    1f
+                                } else {
+                                    0f
+                                }
+                            )
                             .padding(6.dp)
                             .size(32.dp)
                             .background(
@@ -594,11 +614,17 @@ fun AiCard(configGameState: State<ConfigGameContract.ConfigGameState>) {
                 singleLine = true
             )
 
-            Row(modifier = Modifier.align(Alignment.CenterHorizontally),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+            Row(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
                 Text("USE AI:")
                 Spacer(modifier = Modifier.width(32.dp))
                 IconISwitch(checked = check, onCheckedChange = {
-                    check=it
+                    check = it
+                    vm.onAction(ConfigGameContract.ConfigGameAction.setSetAiSwitch(it))
+
                 })
             }
 
