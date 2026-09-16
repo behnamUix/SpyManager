@@ -148,6 +148,7 @@ fun WordManagerSc(
                                                 keyWordVm.onAction(
                                                     UiAction.AddKeyword(KeyWord(word = uiState.word))
                                                 )
+                                                uiState.word = ""
                                             }
 
                                         },
