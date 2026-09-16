@@ -11,3 +11,6 @@ data object MapRoute
 
 @Serializable
 data object SettingsRoute
+
+@Serializable
+data object ConfigRole
