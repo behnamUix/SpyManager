@@ -2,11 +2,8 @@ package com.behnamuix.spygame.feature.configgame.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.behnamuix.spygame.core.media.controller.MusicController
 import com.behnamuix.spygame.feature.configgame.domain.usecase.ConfigGameUseCase
 import com.behnamuix.spygame.feature.configgame.presentation.contract.ConfigGameContract
-import com.behnamuix.spygame.feature.configword.domain.model.KeyWord
-import com.behnamuix.spygame.feature.configword.domain.repository.KeywordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +16,6 @@ import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class ConfigGameViewModel @Inject constructor(
-    private val keywordRepo: KeywordRepository,
     private val useCase: ConfigGameUseCase
 ) : ViewModel() {
     val listTrack = listOf(
@@ -40,17 +36,6 @@ class ConfigGameViewModel @Inject constructor(
             is ConfigGameContract.ConfigGameAction.SetEnabled ->
                 setEnabled(action.enabled)
 
-            is ConfigGameContract.ConfigGameAction.AddWord ->
-                addWord(action.word)
-
-            is ConfigGameContract.ConfigGameAction.DeleteWord ->
-                deleteWord(action.id)
-
-            ConfigGameContract.ConfigGameAction.GetWords ->
-                getWords()
-
-            is ConfigGameContract.ConfigGameAction.CheckWordExist ->
-                checkWordExist(action.word)
 
             ConfigGameContract.ConfigGameAction.IncreaseAgentCount ->
                 incAgentCountPlayer()
@@ -64,8 +49,6 @@ class ConfigGameViewModel @Inject constructor(
             ConfigGameContract.ConfigGameAction.DecreaseSpyCount ->
                 decSpyCountPlayer()
 
-            ConfigGameContract.ConfigGameAction.ReverseExpand ->
-                reverseExpand()
 
             is ConfigGameContract.ConfigGameAction.Initialize ->
                 init(action.agentCount, action.spyCount)
@@ -79,11 +62,6 @@ class ConfigGameViewModel @Inject constructor(
               ConfigGameContract.ConfigGameAction.SetMusicVolume ->
                   setVolume()*/
 
-            ConfigGameContract.ConfigGameAction.ShowAddWordDialog ->
-                updateState { copy(showAddWordDialog = true) }
-
-            ConfigGameContract.ConfigGameAction.HideAddWordDialog ->
-                updateState { copy(showAddWordDialog = false) }
 
             is ConfigGameContract.ConfigGameAction.SetProgress ->
                 updateState { copy(progress = action.value) }
@@ -105,30 +83,6 @@ class ConfigGameViewModel @Inject constructor(
         updateState { copy(enabled = value) }
     }
 
-    fun addWord(keyword: KeyWord) {
-        viewModelScope.launch {
-            keywordRepo.addKeywords(keyword)
-            getWords()
-        }
-    }
-
-    fun deleteWord(id: Int) {
-        viewModelScope.launch {
-            keywordRepo.deleteKeywords(KeyWord(id = id, word = ""))
-            getWords()
-        }
-    }
-
-    fun getWords() {
-        viewModelScope.launch {
-            val words = keywordRepo.getKeywords()
-            updateState { copy(wordList = words) }
-        }
-    }
-
-    fun checkDb(): Boolean {
-        return configGameState.value.wordList.isEmpty()
-    }
 
     fun getBiometricProg() {
         viewModelScope.launch {
@@ -207,12 +161,6 @@ class ConfigGameViewModel @Inject constructor(
         }
     }
 
-    fun reverseExpand() {
-        viewModelScope.launch {
-            delay(200)
-            updateState { copy(expanded = !expanded) }
-        }
-    }
 
     fun init(agent: Int, spy: Int) {
         updateState {
@@ -223,14 +171,6 @@ class ConfigGameViewModel @Inject constructor(
                 spyCode = useCase.getSpyCode()
             )
         }
-    }
-
-    fun checkWordExist(word: String) {
-        val exists = configGameState.value.wordList.any {
-            it.word.equals(word.trim(), ignoreCase = true)
-        }
-
-        updateState { copy(wordExist = exists) }
     }
 
 
