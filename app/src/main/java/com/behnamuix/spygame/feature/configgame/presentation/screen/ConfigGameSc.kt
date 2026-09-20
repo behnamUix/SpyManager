@@ -57,6 +57,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -75,6 +76,7 @@ import com.behnamuix.spygame.feature.configgame.presentation.screen.components.I
 import com.behnamuix.spygame.feature.configgame.presentation.viewmodel.ConfigGameViewModel
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
+import okhttp3.internal.userAgent
 
 
 @Composable
@@ -187,8 +189,10 @@ fun ConfigGameContent(vm: ConfigGameViewModel) {
                 )
             )
             AiCard(configGameState)
-            Box(                   modifier = Modifier
-                .padding(top = 24.dp)){
+            Box(
+                modifier = Modifier
+                    .padding(top = 24.dp)
+            ) {
                 Button(
                     onClick = {},
                     modifier = Modifier
@@ -482,12 +486,13 @@ fun AiCard(configGameState: State<ConfigGameContract.ConfigGameState>) {
             ) {
                 ScanningIcon(
                     imageRes = R.drawable.fingerprint,
-                    laserAnimate = laserAnimateFinger
+                    laserAnimate = laserAnimateFinger, useAnim = true
                 )
 
                 ScanningIcon(
                     imageRes = R.drawable.handprint,
-                    laserAnimate = laserAnimateHand
+                    laserAnimate = laserAnimateHand,
+                    useAnim = false
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
@@ -594,11 +599,15 @@ fun AiCard(configGameState: State<ConfigGameContract.ConfigGameState>) {
                 singleLine = true
             )
 
-            Row(modifier = Modifier.align(Alignment.CenterHorizontally),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+            Row(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
                 Text("USE AI:")
                 Spacer(modifier = Modifier.width(32.dp))
                 IconISwitch(checked = check, onCheckedChange = {
-                    check=it
+                    check = it
                 })
             }
 
@@ -609,10 +618,18 @@ fun AiCard(configGameState: State<ConfigGameContract.ConfigGameState>) {
 
 @Composable
 fun ScanningIcon(
+    useAnim: Boolean,
     imageRes: Int,
     laserAnimate: Float,
     modifier: Modifier = Modifier
 ) {
+    var y: Dp
+    if (useAnim) {
+        y = 60.dp * laserAnimate
+    } else {
+        y = 0.dp
+    }
+
     Box(
         modifier = modifier.size(70.dp)
     ) {
@@ -621,37 +638,39 @@ fun ScanningIcon(
             contentDescription = null,
             modifier = Modifier.size(70.dp)
         )
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(3.dp)
-                .offset(y = 60.dp * laserAnimate)
-                .background(
-                    color = Color(0xFF00E5FF),
-                    shape = RoundedCornerShape(50)
-                )
-                .dropShadow(
-                    shape = RoundedCornerShape(50),
-                    shadow = Shadow(
-                        radius = 14.dp,
+        if (useAnim) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(3.dp)
+                    .offset(y = y)
+                    .background(
                         color = Color(0xFF00E5FF),
-                        spread = 2.dp,
-                        offset = DpOffset(0.dp, 0.dp),
-                        alpha = 0.8f
+                        shape = RoundedCornerShape(50)
                     )
-                )
-                .dropShadow(
-                    shape = RoundedCornerShape(50),
-                    shadow = Shadow(
-                        radius = 28.dp,
-                        color = Color(0xFF00B8FF),
-                        spread = 4.dp,
-                        offset = DpOffset(0.dp, 0.dp),
-                        alpha = 0.35f
+                    .dropShadow(
+                        shape = RoundedCornerShape(50),
+                        shadow = Shadow(
+                            radius = 14.dp,
+                            color = Color(0xFF00E5FF),
+                            spread = 2.dp,
+                            offset = DpOffset(0.dp, 0.dp),
+                            alpha = 0.8f
+                        )
                     )
-                )
-        )
+                    .dropShadow(
+                        shape = RoundedCornerShape(50),
+                        shadow = Shadow(
+                            radius = 28.dp,
+                            color = Color(0xFF00B8FF),
+                            spread = 4.dp,
+                            offset = DpOffset(0.dp, 0.dp),
+                            alpha = 0.35f
+                        )
+                    )
+            )
+        }
+
     }
 }
 
