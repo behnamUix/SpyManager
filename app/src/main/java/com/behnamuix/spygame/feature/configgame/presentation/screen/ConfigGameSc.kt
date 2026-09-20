@@ -498,14 +498,14 @@ fun AiCard(
 
                     useAnim=true,
                     imageRes = R.drawable.fingerprint,
-                    laserAnimate = laserAnimateFinger, useAnim = true
+                    laserAnimate = laserAnimateFinger,
                 )
 
                 ScanningIcon(
                     useAnim=false,
                     imageRes = R.drawable.handprint,
                     laserAnimate = laserAnimateHand,
-                    useAnim = false
+
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
@@ -660,7 +660,7 @@ fun ScanningIcon(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(3.dp)
-                    .offset(y=y)
+                    .offset(y=60.dp * laserAnimate)
                     .background(
                         color = Color(0xFF00E5FF),
                         shape = RoundedCornerShape(50)
