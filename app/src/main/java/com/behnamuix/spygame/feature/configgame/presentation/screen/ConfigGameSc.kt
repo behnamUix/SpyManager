@@ -58,6 +58,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -493,11 +494,14 @@ fun AiCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 ScanningIcon(
+
+                    useAnim=true,
                     imageRes = R.drawable.fingerprint,
                     laserAnimate = laserAnimateFinger
                 )
 
                 ScanningIcon(
+                    useAnim=false,
                     imageRes = R.drawable.handprint,
                     laserAnimate = laserAnimateHand
                 )
@@ -635,10 +639,12 @@ fun AiCard(
 
 @Composable
 fun ScanningIcon(
+    useAnim: Boolean,
     imageRes: Int,
     laserAnimate: Float,
     modifier: Modifier = Modifier
 ) {
+
     Box(
         modifier = modifier.size(70.dp)
     ) {
@@ -647,37 +653,40 @@ fun ScanningIcon(
             contentDescription = null,
             modifier = Modifier.size(70.dp)
         )
+        if(useAnim){
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(3.dp)
-                .offset(y = 60.dp * laserAnimate)
-                .background(
-                    color = Color(0xFF00E5FF),
-                    shape = RoundedCornerShape(50)
-                )
-                .dropShadow(
-                    shape = RoundedCornerShape(50),
-                    shadow = Shadow(
-                        radius = 14.dp,
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(3.dp)
+                    .offset(y=60.dp * laserAnimate)
+                    .background(
                         color = Color(0xFF00E5FF),
-                        spread = 2.dp,
-                        offset = DpOffset(0.dp, 0.dp),
-                        alpha = 0.8f
+                        shape = RoundedCornerShape(50)
                     )
-                )
-                .dropShadow(
-                    shape = RoundedCornerShape(50),
-                    shadow = Shadow(
-                        radius = 28.dp,
-                        color = Color(0xFF00B8FF),
-                        spread = 4.dp,
-                        offset = DpOffset(0.dp, 0.dp),
-                        alpha = 0.35f
+                    .dropShadow(
+                        shape = RoundedCornerShape(50),
+                        shadow = Shadow(
+                            radius = 14.dp,
+                            color = Color(0xFF00E5FF),
+                            spread = 2.dp,
+                            offset = DpOffset(0.dp, 0.dp),
+                            alpha = 0.8f
+                        )
                     )
-                )
-        )
+                    .dropShadow(
+                        shape = RoundedCornerShape(50),
+                        shadow = Shadow(
+                            radius = 28.dp,
+                            color = Color(0xFF00B8FF),
+                            spread = 4.dp,
+                            offset = DpOffset(0.dp, 0.dp),
+                            alpha = 0.35f
+                        )
+                    )
+            )
+        }
+
     }
 }
 
