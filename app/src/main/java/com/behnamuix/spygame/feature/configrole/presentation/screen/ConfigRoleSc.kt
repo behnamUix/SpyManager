@@ -18,9 +18,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.KeyboardDoubleArrowDown
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -97,7 +100,12 @@ fun ConfigRoleSc(modifier: Modifier = Modifier, backToHome: () -> Unit) {
                 ) {
                     Spacer(Modifier.height(32.dp))
                     Box() {
-                        Box(Modifier.fillMaxWidth().height(150.dp), contentAlignment = Alignment.TopCenter) {
+                        Box(
+                            Modifier
+                                .fillMaxWidth()
+                                .height(150.dp),
+                            contentAlignment = Alignment.TopCenter
+                        ) {
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
@@ -419,7 +427,7 @@ fun SecretEnvelope(
                         fontSize = 16.sp,
                         fontFamily = Traffic,
                         fontWeight = FontWeight.Medium,
-                        color = Color.Black
+                        color = Color.Black.copy(0.5f)
                     )
                     Text(
                         text = "درخت",
@@ -433,6 +441,18 @@ fun SecretEnvelope(
                             0xFF3F51B5
                         ), thickness = 0.5.dp, modifier = Modifier.fillMaxWidth()
                     )
+                    Button(
+                        modifier= Modifier.fillMaxWidth(0.5f),
+                        onClick = {}, shape = RoundedCornerShape(8.dp),
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
+                    ) {
+                        Text(
+                            text = "بعدی", fontSize = 16.sp,
+                            fontWeight =
+                                FontWeight.Light,
+                            fontFamily = Traffic
+                        )
+                    }
                 }
             }
         }
