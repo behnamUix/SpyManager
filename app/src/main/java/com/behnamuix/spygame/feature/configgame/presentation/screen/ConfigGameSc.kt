@@ -78,6 +78,7 @@ import com.behnamuix.spygame.feature.configgame.presentation.screen.components.I
 import com.behnamuix.spygame.feature.configgame.presentation.viewmodel.ConfigGameViewModel
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
+import okhttp3.internal.userAgent
 
 
 @Composable
@@ -497,13 +498,14 @@ fun AiCard(
 
                     useAnim=true,
                     imageRes = R.drawable.fingerprint,
-                    laserAnimate = laserAnimateFinger
+                    laserAnimate = laserAnimateFinger, useAnim = true
                 )
 
                 ScanningIcon(
                     useAnim=false,
                     imageRes = R.drawable.handprint,
-                    laserAnimate = laserAnimateHand
+                    laserAnimate = laserAnimateHand,
+                    useAnim = false
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
@@ -628,7 +630,6 @@ fun AiCard(
                 IconISwitch(checked = check, onCheckedChange = {
                     check = it
                     vm.onAction(ConfigGameContract.ConfigGameAction.setSetAiSwitch(it))
-
                 })
             }
 
@@ -659,7 +660,7 @@ fun ScanningIcon(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(3.dp)
-                    .offset(y=60.dp * laserAnimate)
+                    .offset(y=y)
                     .background(
                         color = Color(0xFF00E5FF),
                         shape = RoundedCornerShape(50)
@@ -686,7 +687,6 @@ fun ScanningIcon(
                     )
             )
         }
-
     }
 }
 
