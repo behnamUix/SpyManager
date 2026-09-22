@@ -12,13 +12,13 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 
-abstract class ConfigGameModule {
+abstract class ConfigRoleModule {
     //az bind estefade kardam chon interface va be hilt migam khodet implemention kon
 
+
+
     @Binds
-    abstract fun bindConfigGameRepository(
-        impl: ConfigGameRepositoryImpl
-    ): ConfigGameRepository
-
-
+    abstract fun bindConfigRoleRepository(
+        impl: ConfigRoleRepositoryImpl
+    ): ConfigRoleRepository
 }
