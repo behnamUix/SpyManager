@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class ConfigRoleRepositoryImpl @Inject constructor(private val configRoleDataSource: ConfigRoleDataSource) :
     ConfigRoleRepository {
-    override fun configRole(): MutableList<Player> {
-        return configRoleDataSource.configRoleLogic(true)
+    override fun configRole(word:String): MutableList<Player> {
+        return configRoleDataSource.configRoleLogic(true,word)
     }
 
 }

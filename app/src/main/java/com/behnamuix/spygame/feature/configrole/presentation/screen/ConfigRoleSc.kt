@@ -1,10 +1,10 @@
 package com.behnamuix.spygame.feature.configrole.presentation.screen
 
-import androidx.compose.animation.core.FastOutSlowInEasing
+import android.util.Log
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,8 +18,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
@@ -48,9 +46,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
-
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -58,16 +54,28 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.behnamuix.spygame.core.theme.Traffic
-import com.behnamuix.spygame.feature.configgame.presentation.contract.ConfigGameContract
-import com.behnamuix.spygame.feature.configgame.presentation.screen.BarcodeGeneratorComp
+import com.behnamuix.spygame.feature.configrole.domain.model.Player
 import com.behnamuix.spygame.feature.configrole.presentation.contract.ConfigRoleContract
 import com.behnamuix.spygame.feature.configrole.presentation.viewmodel.ConfigRoleViewModel
-import com.google.zxing.BarcodeFormat
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ConfigRoleSc(modifier: Modifier = Modifier, backToHome: () -> Unit) {
+fun ConfigRoleSc(
+    roleVm: ConfigRoleViewModel = hiltViewModel(),
+    modifier: Modifier = Modifier,
+    backToHome: () -> Unit
+) {
+    val state = roleVm.configRoleState.collectAsStateWithLifecycle()
+    val currentPlayer =
+        state.value.playerList.getOrNull(state.value.currentPlayerIndex)
+    state.value.userUse = false
+
+    LaunchedEffect(Unit) {
+        roleVm.onAction(ConfigRoleContract.ConfigRoleAction.configRole)
+
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -135,15 +143,23 @@ fun ConfigRoleSc(modifier: Modifier = Modifier, backToHome: () -> Unit) {
                                 )
                             }
                         }
+                        Log.d("ROLE", "${state.value.playerList.size}")
+                        if (state.value.finished) {
+                            Log.d("ROLE", "DONE!")
+                        } else {
+                            SecretEnvelope(
 
-                        SecretEnvelope(
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp),
-                            title = "SECRET ROLE",
-                            onClick = {
+                                player = currentPlayer,
+                                modifier = Modifier
+                                    .padding(horizontal = 8.dp),
+                                title = "SECRET ROLE",
+
+                                ) {
+                                roleVm.onAction(ConfigRoleContract.ConfigRoleAction.nextPlayer)
 
                             }
-                        )
+                        }
+
 
                     }
 
@@ -237,246 +253,247 @@ fun CensoredText() {
 
 @Composable
 fun SecretEnvelope(
-    configRoleVm: ConfigRoleViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
     title: String = "SECRET ROLE",
-    onClick: () -> Unit = {}
+    player: Player?,
+    onNext: () -> Unit = {},
 ) {
     var isClosed by remember { mutableStateOf(true) }
 
     val flapHeight = 80.dp
     val envelopeHeight = 220.dp
 
-    // 0 = بسته
-    // 1 = باز
     val flapProgress by animateFloatAsState(
         targetValue = if (isClosed) 0f else 1f,
         animationSpec = tween(
-            durationMillis = 500,
-            easing = FastOutSlowInEasing
+            durationMillis = 200,
+            easing = LinearEasing
         ),
         label = "flapAnimation"
     )
-    val configRoleState = configRoleVm.configRoleState
-        .collectAsStateWithLifecycle()
-    LaunchedEffect(Unit) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(envelopeHeight + flapHeight)
+            .clickable {
+                isClosed = !isClosed
 
-        configRoleVm.onAction(ConfigRoleContract.ConfigRoleAction.configRole)
+            }
+    ) {
 
+        // =================================================
+        // بدنه پاکت
+        // =================================================
 
-    }
-    LazyRow() {
-        items(configRoleState.value.playerList) {
-            Box(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .height(envelopeHeight + flapHeight)
-                    .clickable {
-                        isClosed = !isClosed
-                        onClick()
-                    }
+        Canvas(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(envelopeHeight + flapHeight)
+                .align(Alignment.Center)
+        ) {
+
+            val flap = flapHeight.toPx()
+            val envelopeTop = flap
+
+            // بدنه
+            drawRoundRect(
+                color = Color(0xFFF1EFE5),
+                topLeft = Offset(
+                    x = 0f,
+                    y = envelopeTop
+                ),
+                size = Size(
+                    width = size.width,
+                    height = envelopeHeight.toPx()
+                ),
+                cornerRadius = CornerRadius(
+                    8.dp.toPx()
+                )
+            )
+
+            // حاشیه بدنه
+            drawRoundRect(
+                color = Color(0xFFB8B6AD),
+                topLeft = Offset(
+                    x = 0f,
+                    y = envelopeTop
+                ),
+                size = Size(
+                    width = size.width,
+                    height = envelopeHeight.toPx()
+                ),
+                cornerRadius = CornerRadius(
+                    8.dp.toPx()
+                ),
+                style = Stroke(
+                    width = 2.dp.toPx()
+                )
+            )
+
+            // =================================================
+            // فلاپ
+            // =================================================
+
+            /*
+             * بسته:
+             *
+             *      ▼
+             *     / \
+             *    /   \
+             *   /     \
+             *
+             * باز:
+             *
+             *   \       /
+             *    \     /
+             *     \   /
+             *      \ /
+             *
+             * در حالت باز، فلاپ به سمت بالا منتقل می‌شود.
+             */
+
+            val closedTipY = envelopeTop + flap
+
+            val openTipY = envelopeTop - flap
+
+            val tipY = closedTipY +
+                    (openTipY - closedTipY) * flapProgress
+
+            val animatedFlap = Path().apply {
+
+                // گوشه چپ
+                moveTo(
+                    0f,
+                    envelopeTop
+                )
+
+                // نوک فلاپ
+                lineTo(
+                    size.width / 2f,
+                    tipY
+                )
+
+                // گوشه راست
+                lineTo(
+                    size.width,
+                    envelopeTop
+                )
+
+                close()
+            }
+
+            // رنگ فلاپ
+            drawPath(
+                path = animatedFlap,
+                color = Color(0xFFE8E5D9)
+            )
+
+            // حاشیه فلاپ
+            drawPath(
+                path = animatedFlap,
+                color = Color(0xFFB8B6AD),
+                style = Stroke(
+                    width = 2.dp.toPx()
+                )
+            )
+        }
+
+        // =================================================
+        // متن و بارکد
+        // =================================================
+
+        if (isClosed) {
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 35.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                // =================================================
-                // بدنه پاکت
-                // =================================================
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
 
-                Canvas(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(envelopeHeight + flapHeight)
-                        .align(Alignment.Center)
+                Spacer(
+                    modifier = Modifier.height(12.dp)
+                )
+
+                BarcodePlaceholder()
+            }
+
+        } else {
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 32.dp),
+                contentAlignment = Alignment.Center
+            ) {
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.padding(top = 32.dp)
                 ) {
-
-                    val flap = flapHeight.toPx()
-                    val envelopeTop = flap
-
-                    // بدنه
-                    drawRoundRect(
-                        color = Color(0xFFF1EFE5),
-                        topLeft = Offset(
-                            x = 0f,
-                            y = envelopeTop
-                        ),
-                        size = Size(
-                            width = size.width,
-                            height = envelopeHeight.toPx()
-                        ),
-                        cornerRadius = CornerRadius(
-                            8.dp.toPx()
-                        )
+                    HorizontalDivider(
+                        color = Color(
+                            0xFF3F51B5
+                        ), thickness = 0.5.dp, modifier = Modifier.fillMaxWidth()
                     )
 
-                    // حاشیه بدنه
-                    drawRoundRect(
-                        color = Color(0xFFB8B6AD),
-                        topLeft = Offset(
-                            x = 0f,
-                            y = envelopeTop
-                        ),
-                        size = Size(
-                            width = size.width,
-                            height = envelopeHeight.toPx()
-                        ),
-                        cornerRadius = CornerRadius(
-                            8.dp.toPx()
-                        ),
-                        style = Stroke(
-                            width = 2.dp.toPx()
-                        )
-                    )
-
-                    // =================================================
-                    // فلاپ
-                    // =================================================
-
-                    /*
-                     * بسته:
-                     *
-                     *      ▼
-                     *     / \
-                     *    /   \
-                     *   /     \
-                     *
-                     * باز:
-                     *
-                     *   \       /
-                     *    \     /
-                     *     \   /
-                     *      \ /
-                     *
-                     * در حالت باز، فلاپ به سمت بالا منتقل می‌شود.
-                     */
-
-                    val closedTipY = envelopeTop + flap
-
-                    val openTipY = envelopeTop - flap
-
-                    val tipY = closedTipY +
-                            (openTipY - closedTipY) * flapProgress
-
-                    val animatedFlap = Path().apply {
-
-                        // گوشه چپ
-                        moveTo(
-                            0f,
-                            envelopeTop
-                        )
-
-                        // نوک فلاپ
-                        lineTo(
-                            size.width / 2f,
-                            tipY
-                        )
-
-                        // گوشه راست
-                        lineTo(
-                            size.width,
-                            envelopeTop
-                        )
-
-                        close()
-                    }
-
-                    // رنگ فلاپ
-                    drawPath(
-                        path = animatedFlap,
-                        color = Color(0xFFE8E5D9)
-                    )
-
-                    // حاشیه فلاپ
-                    drawPath(
-                        path = animatedFlap,
-                        color = Color(0xFFB8B6AD),
-                        style = Stroke(
-                            width = 2.dp.toPx()
-                        )
-                    )
-                }
-
-                // =================================================
-                // متن و بارکد
-                // =================================================
-
-                if (isClosed) {
-
-                    Column(
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(bottom = 35.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-
+                    if (player?.role?.contains("جاسوس") == true) {
                         Text(
-                            text = title,
-                            style = MaterialTheme.typography.titleLarge,
+                            text = player?.role ?: "",
+                            fontSize = 24.sp,
+                            fontFamily = Traffic,
                             fontWeight = FontWeight.Bold,
                             color = Color.Black
                         )
-
-                        Spacer(
-                            modifier = Modifier.height(12.dp)
+                    } else {
+                        Text(
+                            text = ":کلمه رمز",
+                            fontSize = 18.sp,
+                            fontFamily = Traffic,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black.copy(0.5f)
                         )
+                        Text(
+                            text = player?.word ?: "",
+                            fontSize = 24.sp,
+                            fontFamily = Traffic,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
 
-                        BarcodePlaceholder()
+                        )
                     }
 
-                } else {
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 32.dp),
-                        contentAlignment = Alignment.Center
+                    HorizontalDivider(
+                        color = Color(
+                            0xFF3F51B5
+                        ), thickness = 0.5.dp, modifier = Modifier.fillMaxWidth()
+                    )
+                    Button(
+                        modifier = Modifier.fillMaxWidth(0.5f),
+                        onClick = { onNext(); isClosed = true }, shape = RoundedCornerShape(8.dp),
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
                     ) {
-
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(16.dp),
-                            modifier = Modifier.padding(top = 32.dp)
-                        ) {
-                            HorizontalDivider(
-                                color = Color(
-                                    0xFF3F51B5
-                                ), thickness = 0.5.dp, modifier = Modifier.fillMaxWidth()
-                            )
-                            Text(
-                                text = ":کلمه رمز\n${it.word ?: ""}",
-                                fontSize = 16.sp,
-                                fontFamily = Traffic,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black.copy(0.5f)
-                            )
-                            Text(
-                                text = it.role,
-                                fontSize = 24.sp,
-                                fontFamily = Traffic,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Black
-                            )
-                            HorizontalDivider(
-                                color = Color(
-                                    0xFF3F51B5
-                                ), thickness = 0.5.dp, modifier = Modifier.fillMaxWidth()
-                            )
-                            Button(
-                                modifier = Modifier.fillMaxWidth(0.5f),
-                                onClick = {}, shape = RoundedCornerShape(8.dp),
-                                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
-                            ) {
-                                Text(
-                                    text = "بعدی", fontSize = 16.sp,
-                                    fontWeight =
-                                        FontWeight.Light,
-                                    fontFamily = Traffic
-                                )
-                            }
-                        }
+                        Text(
+                            text = "بعدی", fontSize = 16.sp,
+                            fontWeight =
+                                FontWeight.Light,
+                            fontFamily = Traffic
+                        )
                     }
                 }
             }
         }
     }
+
 
 }
 

@@ -8,7 +8,7 @@ import javax.inject.Inject
 class ConfigRoleUseCase @Inject constructor(
     private val configRoleRepo: ConfigRoleRepository
 ) {
-    fun configRole(): MutableList<Player>{
-        return configRoleRepo.configRole()
+    fun configRole(word:String): MutableList<Player>{
+        return configRoleRepo.configRole(word)
     }
 }

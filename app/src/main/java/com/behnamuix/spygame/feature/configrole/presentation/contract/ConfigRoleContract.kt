@@ -8,10 +8,15 @@ import java.util.Collections.emptyList
 
 object ConfigRoleContract {
     data class ConfigRoleState(
-        val playerList: List<Player> = emptyList()
+        val playerList: List<Player> = emptyList(),
+        val currentPlayerIndex: Int = 0,
+        val finished: Boolean=false,
+        var userUse: Boolean=false
     )
-    sealed class ConfigRoleAction{
-        data object configRole: ConfigRoleAction()
+
+    sealed class ConfigRoleAction {
+        data object configRole : ConfigRoleAction()
+        data object nextPlayer : ConfigRoleAction()
     }
 
 
