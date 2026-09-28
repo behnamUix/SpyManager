@@ -11,12 +11,17 @@ object ConfigRoleContract {
         val playerList: List<Player> = emptyList(),
         val currentPlayerIndex: Int = 0,
         val finished: Boolean=false,
-        var userUse: Boolean=false
+        var userUse: Boolean=false,
+        var time:Int=2
     )
 
     sealed class ConfigRoleAction {
         data object configRole : ConfigRoleAction()
         data object nextPlayer : ConfigRoleAction()
+
+        data object increaseTime: ConfigRoleAction()
+
+        data object decreaseTime: ConfigRoleAction()
     }
 
 

@@ -6,10 +6,12 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -47,12 +49,16 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.behnamuix.spygame.R
+import com.behnamuix.spygame.core.theme.AppDimens
+import com.behnamuix.spygame.core.theme.AppShapes
 import com.behnamuix.spygame.core.theme.Traffic
 import com.behnamuix.spygame.feature.configrole.domain.model.Player
 import com.behnamuix.spygame.feature.configrole.presentation.contract.ConfigRoleContract
@@ -63,6 +69,7 @@ import com.behnamuix.spygame.feature.configrole.presentation.viewmodel.ConfigRol
 @Composable
 fun ConfigRoleSc(
     roleVm: ConfigRoleViewModel = hiltViewModel(),
+
     modifier: Modifier = Modifier,
     backToHome: () -> Unit
 ) {
@@ -77,6 +84,7 @@ fun ConfigRoleSc(
     }
 
     Scaffold(
+
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(Color(0xFFBE9A73)),
@@ -116,36 +124,223 @@ fun ConfigRoleSc(
                 ) {
                     Spacer(Modifier.height(32.dp))
                     Box() {
-                        Box(
-                            Modifier
-                                .fillMaxWidth()
-                                .height(150.dp),
-                            contentAlignment = Alignment.TopCenter
-                        ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Text(
 
-
-                                    color = MaterialTheme.colorScheme.secondary,
-                                    text = "TAP ON HERE",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    fontWeight = FontWeight.Bold,
-
-                                    )
-                                Icon(
-                                    tint = MaterialTheme.colorScheme.background,
-                                    modifier = Modifier.size(32.dp),
-                                    imageVector = Icons.Default.KeyboardDoubleArrowDown,
-                                    contentDescription = ""
-                                )
-                            }
-                        }
                         Log.d("ROLE", "${state.value.playerList.size}")
                         if (state.value.finished) {
                             Log.d("ROLE", "DONE!")
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 20.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+
+                                // Header
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    Text(
+                                        text = "MISSION CONTROL",
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        letterSpacing = 2.sp,
+                                        color = Color.Black.copy(alpha = 0.55f)
+                                    )
+
+                                    Text(
+                                        text = "SELECT TIME",
+                                        style = MaterialTheme.typography.headlineSmall,
+                                        fontWeight = FontWeight.Black,
+                                        color = Color.Black
+                                    )
+                                }
+
+                                Spacer(modifier = Modifier.height(20.dp))
+
+                                // Time control panel
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            color = Color(0xFFF1EFE5),
+                                            shape = RoundedCornerShape(12.dp)
+                                        )
+                                        .border(
+                                            width = 1.dp,
+                                            color = Color.Black.copy(alpha = 0.25f),
+                                            shape = RoundedCornerShape(12.dp)
+                                        )
+                                        .padding(
+                                            horizontal = 20.dp,
+                                            vertical = 18.dp
+                                        ),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+
+                                    Text(
+                                        text = "MISSION DURATION",
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        letterSpacing = 1.5.sp,
+                                        color = Color.Black.copy(alpha = 0.45f)
+                                    )
+
+                                    Spacer(modifier = Modifier.height(14.dp))
+
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.SpaceBetween
+                                    ) {
+
+                                        // Decrease
+                                        Box(
+                                            modifier = Modifier
+                                                .size(52.dp)
+                                                .border(
+                                                    width = 1.dp,
+                                                    color = Color.Black.copy(alpha = 0.5f),
+                                                    shape = RoundedCornerShape(6.dp)
+                                                )
+                                                .clickable {
+                                                    roleVm.onAction(
+                                                        ConfigRoleContract.ConfigRoleAction.decreaseTime
+                                                    )
+                                                },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                painter = painterResource(R.drawable.icon_minus),
+                                                contentDescription = "Decrease time",
+                                                tint = Color.Black,
+                                                modifier = Modifier.size(22.dp)
+                                            )
+                                        }
+
+                                        // Time
+                                        Column(
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+
+                                            Row(
+                                                verticalAlignment = Alignment.Bottom,
+                                                horizontalArrangement = Arrangement.spacedBy(5.dp)
+                                            ) {
+
+                                                Text(
+                                                    text = state.value.time.toString(),
+                                                    fontSize = 42.sp,
+                                                    fontWeight = FontWeight.Black,
+                                                    color = Color.Black
+                                                )
+
+                                                Text(
+                                                    text = "MIN",
+                                                    fontSize = 11.sp,
+                                                    fontWeight = FontWeight.Bold,
+                                                    color = Color.Black.copy(alpha = 0.5f),
+                                                    modifier = Modifier.padding(bottom = 7.dp)
+                                                )
+                                            }
+
+                                            Text(
+                                                text = "OPERATION WINDOW",
+                                                fontSize = 8.sp,
+                                                letterSpacing = 1.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color.Black.copy(alpha = 0.4f)
+                                            )
+                                        }
+
+                                        // Increase
+                                        Box(
+                                            modifier = Modifier
+                                                .size(52.dp)
+                                                .background(
+                                                    color = Color(0xFF3F51B5),
+                                                    shape = RoundedCornerShape(6.dp)
+                                                )
+                                                .clickable {
+                                                    roleVm.onAction(
+                                                        ConfigRoleContract.ConfigRoleAction.increaseTime
+                                                    )
+                                                },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                painter = painterResource(R.drawable.icon_plus),
+                                                contentDescription = "Increase time",
+                                                tint = Color.White,
+                                                modifier = Modifier.size(22.dp)
+                                            )
+                                        }
+                                    }
+
+                                    Spacer(modifier = Modifier.height(16.dp))
+
+                                    HorizontalDivider(
+                                        color = Color.Black.copy(alpha = 0.15f),
+                                        thickness = 1.dp
+                                    )
+
+                                    Spacer(modifier = Modifier.height(10.dp))
+
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween
+                                    ) {
+
+                                        Text(
+                                            text = "MINIMUM 0",
+                                            fontSize = 8.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color.Black.copy(alpha = 0.4f)
+                                        )
+
+                                        Text(
+                                            text = "MAXIMUM 10",
+                                            fontSize = 8.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color.Black.copy(alpha = 0.4f)
+                                        )
+                                    }
+                                }
+
+                                Spacer(modifier = Modifier.height(24.dp))
+
+                                // Warning
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+
+                                    Text(
+                                        text = "⚠",
+                                        fontSize = 18.sp,
+                                        color = Color(0xFF3F51B5)
+                                    )
+
+                                    Spacer(modifier = Modifier.height(4.dp))
+
+                                    Text(
+                                        text = "DO NOT PHOTOCOPY",
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Black,
+                                        letterSpacing = 1.5.sp,
+                                        textAlign = TextAlign.Center,
+                                        color = Color(0xFF3F51B5)
+                                    )
+
+                                    Text(
+                                        text = "CLASSIFIED OPERATION",
+                                        fontSize = 8.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        letterSpacing = 1.sp,
+                                        color = Color.Black.copy(alpha = 0.4f)
+                                    )
+                                }
+                            }
+
                         } else {
                             SecretEnvelope(
 
@@ -165,12 +360,6 @@ fun ConfigRoleSc(
 
 
                 }
-                Text(
-                    text = "DO NOT \n PHOTOCOPY", style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, color = Color(
-                        0xFF3F51B5
-                    )
-                )
 
 
             }
@@ -271,6 +460,36 @@ fun SecretEnvelope(
         ),
         label = "flapAnimation"
     )
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .height(150.dp),
+        contentAlignment = Alignment.TopCenter
+    ) {
+        if (isClosed) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+
+
+                    color = MaterialTheme.colorScheme.secondary,
+                    text = "TAP ON HERE",
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Bold,
+
+                    )
+                Icon(
+                    tint = MaterialTheme.colorScheme.background,
+                    modifier = Modifier.size(32.dp),
+                    imageVector = Icons.Default.KeyboardDoubleArrowDown,
+                    contentDescription = ""
+                )
+            }
+        }
+
+    }
     Box(
         modifier = modifier
             .fillMaxWidth()

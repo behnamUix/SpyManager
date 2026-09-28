@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.behnamuix.spygame.feature.configgame.presentation.contract.ConfigGameContract
 import com.behnamuix.spygame.feature.configrole.domain.usecase.ConfigRoleUseCase
+import com.behnamuix.spygame.feature.configrole.domain.usecase.ConfigTimeUseCase
 import com.behnamuix.spygame.feature.configrole.presentation.contract.ConfigRoleContract
 import com.behnamuix.spygame.feature.configword.domain.model.KeyWord
 import com.behnamuix.spygame.feature.configword.domain.usecase.KeyWordUseCase
@@ -21,7 +22,8 @@ import kotlin.random.Random
 class ConfigRoleViewModel @Inject
 constructor(
     private val configRoleUseCase: ConfigRoleUseCase,
-    private val keyWordUseCase: KeyWordUseCase
+    private val keyWordUseCase: KeyWordUseCase,
+    private val configTimeUseCase: ConfigTimeUseCase
 ) :
     ViewModel() {
     val category = listOf(
@@ -917,7 +919,25 @@ constructor(
         when (action) {
             is ConfigRoleContract.ConfigRoleAction.configRole -> configRole()
             is ConfigRoleContract.ConfigRoleAction.nextPlayer -> nextPlayer()
+            is ConfigRoleContract.ConfigRoleAction.increaseTime -> incTime()
+            is ConfigRoleContract.ConfigRoleAction.decreaseTime -> decTime()
 
+        }
+    }
+
+    private fun decTime() {
+        _configRoleState.update {
+            it.copy(
+                time = configTimeUseCase.decreaseTime()
+            )
+        }
+    }
+
+    private fun incTime() {
+        _configRoleState.update {
+            it.copy(
+                time = configTimeUseCase.increaseTime()
+            )
         }
     }
 
