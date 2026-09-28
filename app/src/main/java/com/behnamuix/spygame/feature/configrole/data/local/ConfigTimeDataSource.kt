@@ -14,7 +14,7 @@ class ConfigTimeDataSource @Inject constructor() {
     }
 
     fun decreaseTime(): Int {
-        if (Time.count > 0) {
+        if (Time.count >=2) {
             Time.count -= 2
         }
 

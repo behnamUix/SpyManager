@@ -1,6 +1,7 @@
 package com.behnamuix.spygame.feature.configrole.presentation.screen
 
 import android.util.Log
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -72,7 +73,7 @@ fun ConfigRoleSc(
     roleVm: ConfigRoleViewModel = hiltViewModel(),
 
     modifier: Modifier = Modifier,
-    openTimeConfigSc:()->Unit,
+    openTimeConfigSc: () -> Unit,
     backToHome: () -> Unit
 ) {
     var done by remember { mutableStateOf(false) }
@@ -115,13 +116,15 @@ fun ConfigRoleSc(
                 .background(Color(0xFFBE9A73))
         ) {
             Column(
-                Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp),
+                Modifier
+                    .animateContentSize(tween(1000, easing = LinearEasing))
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                if(!done){
+                if (!done) {
 
-                CensoredText()
+                    CensoredText()
                 }
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -134,7 +137,7 @@ fun ConfigRoleSc(
                         Log.d("ROLE", "${state.value.playerList.size}")
                         if (state.value.finished) {
                             Log.d("ROLE", "DONE!")
-                            done=true
+                            done = true
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -225,28 +228,26 @@ fun ConfigRoleSc(
                                         // Time
 
 
-                                            Row(
-                                                verticalAlignment = Alignment.Bottom,
-                                                horizontalArrangement = Arrangement.spacedBy(5.dp)
-                                            ) {
+                                        Row(
+                                            verticalAlignment = Alignment.Bottom,
+                                            horizontalArrangement = Arrangement.spacedBy(5.dp)
+                                        ) {
 
-                                                Text(
-                                                    text = state.value.time.toString(),
-                                                    fontSize = 42.sp,
-                                                    fontWeight = FontWeight.Black,
-                                                    color = Color.Black
-                                                )
+                                            Text(
+                                                text = state.value.time.toString(),
+                                                fontSize = 42.sp,
+                                                fontWeight = FontWeight.Black,
+                                                color = Color.Black
+                                            )
 
-                                                Text(
-                                                    text = "MIN",
-                                                    fontSize = 11.sp,
-                                                    fontWeight = FontWeight.Bold,
-                                                    color = Color.Black.copy(alpha = 0.5f),
-                                                    modifier = Modifier.padding(bottom = 7.dp)
-                                                )
-                                            }
-
-
+                                            Text(
+                                                text = "MIN",
+                                                fontSize = 11.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color.Black.copy(alpha = 0.5f),
+                                                modifier = Modifier.padding(bottom = 7.dp)
+                                            )
+                                        }
 
 
                                         // Increase
@@ -288,7 +289,7 @@ fun ConfigRoleSc(
                                     ) {
 
                                         Text(
-                                            text = "MINIMUM 0",
+                                            text = "MINIMUM 2",
                                             fontSize = 8.sp,
                                             fontWeight = FontWeight.Bold,
                                             color = Color.Black.copy(alpha = 0.4f)
@@ -303,7 +304,7 @@ fun ConfigRoleSc(
                                     }
                                     Button(
                                         onClick = {
-                                           openTimeConfigSc()
+                                            openTimeConfigSc()
                                         },
                                         modifier = Modifier
 
