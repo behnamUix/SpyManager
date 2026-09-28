@@ -39,6 +39,10 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier) {
                 navController.navigate(ConfigRole)
             }
         }
+        composable<TimerRoute> {
+
+
+        }
 
         composable<WordsRoute> {
             WordManagerSc()
@@ -67,7 +71,11 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier) {
             }
 
         ) {
-            ConfigRoleSc(backToHome = {
+            ConfigRoleSc(
+                openTimeConfigSc = {
+                    navController.navigate(TimerRoute)
+                },
+                backToHome = {
                 navController.navigate(GameRoute)
             })
         }

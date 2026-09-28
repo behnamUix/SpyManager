@@ -75,6 +75,7 @@ fun ConfigRoleSc(
     openTimeConfigSc:()->Unit,
     backToHome: () -> Unit
 ) {
+    var done by remember { mutableStateOf(false) }
     val state = roleVm.configRoleState.collectAsStateWithLifecycle()
     val currentPlayer =
         state.value.playerList.getOrNull(state.value.currentPlayerIndex)
@@ -118,7 +119,10 @@ fun ConfigRoleSc(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
+                if(!done){
+
                 CensoredText()
+                }
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -130,6 +134,7 @@ fun ConfigRoleSc(
                         Log.d("ROLE", "${state.value.playerList.size}")
                         if (state.value.finished) {
                             Log.d("ROLE", "DONE!")
+                            done=true
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -143,7 +148,7 @@ fun ConfigRoleSc(
                                     verticalArrangement = Arrangement.spacedBy(4.dp)
                                 ) {
                                     Text(
-                                        text = "MISSION CONTROL",
+                                        text = "TIME CONTROL",
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Bold,
                                         letterSpacing = 2.sp,
@@ -167,7 +172,7 @@ fun ConfigRoleSc(
 
                                         .border(
                                             width = 1.dp,
-                                            color = Color.Black.copy(alpha = 0.25f),
+                                            color = Color.Black,
                                             shape = RoundedCornerShape(12.dp)
                                         )
                                         .padding(
@@ -303,12 +308,12 @@ fun ConfigRoleSc(
                                         modifier = Modifier
 
                                             .fillMaxWidth()
-                                            .fillMaxHeight(0.3f),
+                                            .fillMaxHeight(0.1f),
                                         shape = RoundedCornerShape(8.dp),
                                         colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
                                     ) {
                                         Text(
-                                            "RUN TURN",
+                                            "START",
                                             color = MaterialTheme.colorScheme.outline,
                                             style = MaterialTheme.typography.titleMedium,
                                             fontWeight = FontWeight.Black
@@ -316,7 +321,7 @@ fun ConfigRoleSc(
                                     }
                                 }
 
-                                Spacer(modifier = Modifier.height(24.dp))
+                                Spacer(modifier = Modifier.weight(1f))
 
                                 // Warning
                                 Column(

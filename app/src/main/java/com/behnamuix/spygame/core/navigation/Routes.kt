@@ -4,6 +4,9 @@ import kotlinx.serialization.Serializable
 data object GameRoute
 
 @Serializable
+data object TimerRoute
+
+@Serializable
 data object WordsRoute
 
 @Serializable
