@@ -3,13 +3,14 @@ package com.behnamuix.spygame.feature.configrole.data.local
 import com.behnamuix.spygame.feature.configgame.domain.model.Agent
 import com.behnamuix.spygame.feature.configgame.domain.model.Spy
 import com.behnamuix.spygame.feature.configrole.domain.model.Player
+import com.behnamuix.spygame.feature.configrole.domain.model.Time
 import javax.inject.Inject
 
 class ConfigRoleDataSource @Inject constructor() {
 
 
     val players = mutableListOf<Player>()
-    fun configRoleLogic(useSecureRandom: Boolean,word:String): MutableList<Player> {
+    fun configRoleLogic(useSecureRandom: Boolean, word: String): MutableList<Player> {
 
         var id = 1
 
@@ -50,5 +51,7 @@ class ConfigRoleDataSource @Inject constructor() {
         }.toMutableList()
 
     }
+
+
 
 }

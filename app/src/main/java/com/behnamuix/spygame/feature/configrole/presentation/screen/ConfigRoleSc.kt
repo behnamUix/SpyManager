@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -71,6 +72,7 @@ fun ConfigRoleSc(
     roleVm: ConfigRoleViewModel = hiltViewModel(),
 
     modifier: Modifier = Modifier,
+    openTimeConfigSc:()->Unit,
     backToHome: () -> Unit
 ) {
     val state = roleVm.configRoleState.collectAsStateWithLifecycle()
@@ -162,10 +164,7 @@ fun ConfigRoleSc(
                                 Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .background(
-                                            color = Color(0xFFF1EFE5),
-                                            shape = RoundedCornerShape(12.dp)
-                                        )
+
                                         .border(
                                             width = 1.dp,
                                             color = Color.Black.copy(alpha = 0.25f),
@@ -219,9 +218,7 @@ fun ConfigRoleSc(
                                         }
 
                                         // Time
-                                        Column(
-                                            horizontalAlignment = Alignment.CenterHorizontally
-                                        ) {
+
 
                                             Row(
                                                 verticalAlignment = Alignment.Bottom,
@@ -244,21 +241,15 @@ fun ConfigRoleSc(
                                                 )
                                             }
 
-                                            Text(
-                                                text = "OPERATION WINDOW",
-                                                fontSize = 8.sp,
-                                                letterSpacing = 1.sp,
-                                                fontWeight = FontWeight.Bold,
-                                                color = Color.Black.copy(alpha = 0.4f)
-                                            )
-                                        }
+
+
 
                                         // Increase
                                         Box(
                                             modifier = Modifier
                                                 .size(52.dp)
                                                 .background(
-                                                    color = Color(0xFF3F51B5),
+                                                    color = MaterialTheme.colorScheme.primary,
                                                     shape = RoundedCornerShape(6.dp)
                                                 )
                                                 .clickable {
@@ -303,6 +294,24 @@ fun ConfigRoleSc(
                                             fontSize = 8.sp,
                                             fontWeight = FontWeight.Bold,
                                             color = Color.Black.copy(alpha = 0.4f)
+                                        )
+                                    }
+                                    Button(
+                                        onClick = {
+                                           openTimeConfigSc()
+                                        },
+                                        modifier = Modifier
+
+                                            .fillMaxWidth()
+                                            .fillMaxHeight(0.3f),
+                                        shape = RoundedCornerShape(8.dp),
+                                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
+                                    ) {
+                                        Text(
+                                            "RUN TURN",
+                                            color = MaterialTheme.colorScheme.outline,
+                                            style = MaterialTheme.typography.titleMedium,
+                                            fontWeight = FontWeight.Black
                                         )
                                     }
                                 }
