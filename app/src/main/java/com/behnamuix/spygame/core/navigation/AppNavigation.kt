@@ -19,7 +19,7 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier) {
 
     NavHost(
         navController = navController,
-        startDestination = TimerRoute(5),
+        startDestination = GameRoute,
 
         ) {
 
@@ -43,7 +43,7 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier) {
         }
         composable<TimerRoute> {
             val route = it.toRoute<TimerRoute>()
-            TimerSc(time=route.time)
+            TimerSc(sec=route.time*60)
 
 
         }
