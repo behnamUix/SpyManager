@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class TimerViewModel @Inject constructor() : ViewModel() {
@@ -29,6 +30,7 @@ class TimerViewModel @Inject constructor() : ViewModel() {
             is UiAction.ResetTimer -> resetTimer()
             is UiAction.ResumeTimer -> resumeTimer()
             is UiAction.ShowTimerFormatedString -> showTimerFormated(action.currentSec)
+            is UiAction.SetProgressCalc -> showTimerFormated(action.currentSec)
             else -> {}
         }
     }
@@ -36,7 +38,28 @@ class TimerViewModel @Inject constructor() : ViewModel() {
     fun setTimer(sec: Int) {
         _timerState.update {
             it.copy(
-                secondsLeft = sec
+                secondsLeft = sec,
+                initialSeconds = sec,
+
+                prog = 1f
+            )
+        }
+    }
+
+    private fun setCalcProg(currentSeconds: Int) {
+
+        val initialSeconds = _timerState.value.initialSeconds
+
+        if (initialSeconds <= 0) {
+            _timerState.update {
+                it.copy(prog = 0f)
+            }
+            return
+        }
+
+        _timerState.update {
+            it.copy(
+                prog = currentSeconds.toFloat() / initialSeconds.toFloat()
             )
         }
     }
@@ -94,7 +117,7 @@ class TimerViewModel @Inject constructor() : ViewModel() {
                 timerState.value.secondsLeft > 0
             ) {
 
-                delay(1000)
+                delay(1000.milliseconds)
 
                 _timerState.update {
                     it.copy(
@@ -102,6 +125,7 @@ class TimerViewModel @Inject constructor() : ViewModel() {
                     )
                 }
                 showTimerFormated(_timerState.value.secondsLeft)
+                setCalcProg(_timerState.value.secondsLeft)
 
             }
 
