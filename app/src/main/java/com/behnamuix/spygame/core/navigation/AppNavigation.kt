@@ -7,9 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.behnamuix.spygame.feature.configgame.presentation.screen.ConfigGameSc
 import com.behnamuix.spygame.feature.configrole.presentation.screen.ConfigRoleSc
 import com.behnamuix.spygame.feature.configword.presentation.screen.WordManagerSc
+import com.behnamuix.spygame.feature.timer.presentation.screen.TimerSc
 
 @Composable
 fun AppNavigation(navController: NavHostController, modifier: Modifier) {
@@ -17,7 +19,7 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier) {
 
     NavHost(
         navController = navController,
-        startDestination = GameRoute,
+        startDestination = TimerRoute(5),
 
         ) {
 
@@ -40,6 +42,8 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier) {
             }
         }
         composable<TimerRoute> {
+            val route = it.toRoute<TimerRoute>()
+            TimerSc(time=route.time)
 
 
         }
@@ -72,8 +76,10 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier) {
 
         ) {
             ConfigRoleSc(
-                openTimeConfigSc = {
-                    navController.navigate(TimerRoute)
+                openTimeConfigSc = {time->
+                    navController.navigate(
+                        TimerRoute(time = time)
+                    )
                 },
                 backToHome = {
                 navController.navigate(GameRoute)

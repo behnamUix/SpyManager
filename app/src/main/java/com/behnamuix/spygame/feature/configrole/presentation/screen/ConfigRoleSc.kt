@@ -73,7 +73,7 @@ fun ConfigRoleSc(
     roleVm: ConfigRoleViewModel = hiltViewModel(),
 
     modifier: Modifier = Modifier,
-    openTimeConfigSc: () -> Unit,
+    openTimeConfigSc: (Int) -> Unit,
     backToHome: () -> Unit
 ) {
     var done by remember { mutableStateOf(false) }
@@ -304,7 +304,7 @@ fun ConfigRoleSc(
                                     }
                                     Button(
                                         onClick = {
-                                            openTimeConfigSc()
+                                            openTimeConfigSc(state.value.time)
                                         },
                                         modifier = Modifier
 
